@@ -1,11 +1,13 @@
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
+package com.krassoc.smoothbrainz.ui
+
+import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Rule
 import org.junit.Test
+
 import com.krassoc.smoothbrainz.data.di.fakeModels
-import com.krassoc.smoothbrainz.ui.MainActivity
 
 @HiltAndroidTest
 class NavigationTest {

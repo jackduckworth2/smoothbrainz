@@ -1,38 +1,147 @@
 package com.krassoc.smoothbrainz.ui
 
-import com.krassoc.smoothbrainz.ui.theme.MyApplicationTheme
-import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.ui.Modifier
+import androidx.activity.viewModels
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.tracing.trace
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+import com.krassoc.smoothbrainz.model.repo.INetworkMonitor
+import com.krassoc.smoothbrainz.ui.util.isSystemInDarkTheme
+import com.krassoc.smoothbrainz.ui.MainActivityUiState.Loading
+import com.krassoc.smoothbrainz.ui.navigation.MainNavigation
+import com.krassoc.smoothbrainz.ui.theme.MyApplicationTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    @Inject
+    lateinit var networkMonitor: INetworkMonitor
+
+    private val viewModel: MainActivityViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.auto(
-                lightScrim = Color.TRANSPARENT,
-                darkScrim = Color.TRANSPARENT
-            )
-        )
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
+
+        // We keep this as a mutable state, so that we can track changes inside the composition.
+        // This allows us to react to dark/light mode changes.
+        var themeSettings by mutableStateOf(
+            ThemeSettings(
+                darkTheme = resources.configuration.isSystemInDarkTheme,
+                androidTheme = Loading.shouldUseAndroidTheme,
+                disableDynamicTheming = Loading.shouldDisableDynamicTheming,
+            ),
+        )
+
+        // Update the uiState
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                combine(
+                    isSystemInDarkTheme(),
+                    viewModel.uiState,
+                ) { systemDark, uiState ->
+                    ThemeSettings(
+                        darkTheme = uiState.shouldUseDarkTheme(systemDark),
+                        androidTheme = uiState.shouldUseAndroidTheme,
+                        disableDynamicTheming = uiState.shouldDisableDynamicTheming,
+                    )
+                }
+                    .onEach { themeSettings = it }
+                    .map { it.darkTheme }
+                    .distinctUntilChanged()
+                    .collect { darkTheme ->
+                        trace("EdgeToEdge") {
+                            // Turn off the decor fitting system windows, which allows us to handle insets,
+                            // including IME animations, and go edge-to-edge.
+                            // This is the same parameters as the default enableEdgeToEdge call, but we manually
+                            // resolve whether or not to show dark theme using uiState, since it can be different
+                            // than the configuration's dark theme value based on the user preference.
+                            enableEdgeToEdge(
+                                statusBarStyle = SystemBarStyle.auto(
+                                    lightScrim = android.graphics.Color.TRANSPARENT,
+                                    darkScrim = android.graphics.Color.TRANSPARENT,
+                                ) { darkTheme },
+                                navigationBarStyle = SystemBarStyle.auto(
+                                    lightScrim = lightScrim,
+                                    darkScrim = darkScrim,
+                                ) { darkTheme },
+                            )
+                        }
+                    }
+            }
+        }
+
+        // Keep the splash screen on-screen until the UI state is loaded. This condition is
+        // evaluated each time the app needs to be redrawn so it should be fast to avoid blocking
+        // the UI.
+        splashScreen.setKeepOnScreenCondition { viewModel.uiState.value.shouldKeepSplashScreen() }
+
         setContent {
-            MyApplicationTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+            val appState = rememberAppState(
+                networkMonitor = networkMonitor,
+            )
+
+            CompositionLocalProvider(
+            ) {
+                MyApplicationTheme(
+                    darkTheme = themeSettings.darkTheme,
+                    androidTheme = themeSettings.androidTheme,
+                    disableDynamicTheming = themeSettings.disableDynamicTheming,
                 ) {
-                    MainNavigation()
+                    MainNavigation(appState)
                 }
             }
         }
+
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
     }
 }
+
+
+/**
+ * The default light scrim, as defined by androidx and the platform:
+ * https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:activity/activity/src/main/java/androidx/activity/EdgeToEdge.kt;l=35-38;drc=27e7d52e8604a080133e8b842db10c89b4482598
+ */
+private val lightScrim = android.graphics.Color.argb(0xe6, 0xFF, 0xFF, 0xFF)
+
+/**
+ * The default dark scrim, as defined by androidx and the platform:
+ * https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:activity/activity/src/main/java/androidx/activity/EdgeToEdge.kt;l=40-44;drc=27e7d52e8604a080133e8b842db10c89b4482598
+ */
+private val darkScrim = android.graphics.Color.argb(0x80, 0x1b, 0x1b, 0x1b)
+
+/**
+ * Class for the system theme settings.
+ * This wrapping class allows us to combine all the changes and prevent unnecessary recompositions.
+ */
+data class ThemeSettings(
+    val darkTheme: Boolean,
+    val androidTheme: Boolean,
+    val disableDynamicTheming: Boolean,
+)

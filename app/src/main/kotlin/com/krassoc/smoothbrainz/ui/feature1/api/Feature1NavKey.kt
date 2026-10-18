@@ -1,7 +1,7 @@
-package com.krassoc.smoothbrainz.ui
+package com.krassoc.smoothbrainz.ui.feature1.api
 
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object Main : NavKey
+object Feature1NavKey : NavKey

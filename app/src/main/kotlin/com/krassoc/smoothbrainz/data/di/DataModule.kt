@@ -4,30 +4,16 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
-import com.krassoc.smoothbrainz.data.ModelRepository
-import com.krassoc.smoothbrainz.data.DefaultModelRepository
-import javax.inject.Inject
-import javax.inject.Singleton
+import com.krassoc.smoothbrainz.model.repo.IUserDataRepository
+import com.krassoc.smoothbrainz.data.repository.OfflineFirstUserDataRepositoryImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface DataModule {
+abstract class DataModule {
 
-    @Singleton
     @Binds
-    fun bindsMyModelRepository(
-        myModelRepository: DefaultModelRepository
-    ): ModelRepository
+    internal abstract fun bindsUserDataRepository(
+        userDataRepository: OfflineFirstUserDataRepositoryImpl,
+    ): IUserDataRepository
 }
 
-class FakeModelRepository @Inject constructor() : ModelRepository {
-    override val models: Flow<List<String>> = flowOf(fakeModels)
-
-    override suspend fun add(name: String) {
-        throw NotImplementedError()
-    }
-}
-
-val fakeModels = listOf("One", "Two", "Three")
