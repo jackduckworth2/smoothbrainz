@@ -11,11 +11,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.unit.dp
+import kotlin.test.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.junit.After
+import org.koin.core.context.stopKoin
 import org.robolectric.RobolectricTestRunner
-import kotlin.test.assertEquals
 
 import com.krassoc.smoothbrainz.ui.theme.MyApplicationTheme
 
@@ -31,6 +33,10 @@ import com.krassoc.smoothbrainz.ui.theme.MyApplicationTheme
 @RunWith(RobolectricTestRunner::class)
 class ThemeTest {
 
+    @After
+    fun tearDown() {
+        stopKoin()
+    }
     @get:Rule
     val composeTestRule = createComposeRule()
 

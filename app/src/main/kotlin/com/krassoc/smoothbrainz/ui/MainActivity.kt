@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -15,26 +14,28 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.tracing.trace
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
+import org.koin.androidx.compose.KoinAndroidContext
+import org.koin.androidx.viewmodel.ext.android.viewModel
+//import org.koin.core.parameter.parametersOf
+
 import com.krassoc.smoothbrainz.model.repo.INetworkMonitor
 import com.krassoc.smoothbrainz.ui.util.isSystemInDarkTheme
 import com.krassoc.smoothbrainz.ui.MainActivityUiState.Loading
 import com.krassoc.smoothbrainz.ui.navigation.MainNavigation
 import com.krassoc.smoothbrainz.ui.theme.MyApplicationTheme
 
-@AndroidEntryPoint
+// To keep for ViewModels
 class MainActivity : ComponentActivity() {
 
-    @Inject
-    lateinit var networkMonitor: INetworkMonitor
+    val networkMonitor: INetworkMonitor by inject()
 
-    private val viewModel: MainActivityViewModel by viewModels()
+    private val viewModel: MainActivityViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -105,7 +106,9 @@ class MainActivity : ComponentActivity() {
                     androidTheme = themeSettings.androidTheme,
                     disableDynamicTheming = themeSettings.disableDynamicTheming,
                 ) {
-                    MainNavigation(appState)
+                    KoinAndroidContext {
+                        MainNavigation(appState)
+                    }
                 }
             }
         }

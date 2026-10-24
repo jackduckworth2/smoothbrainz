@@ -51,9 +51,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
-import com.krassoc.smoothbrainz.ui.AppState
 import kotlin.text.get
 
+import com.krassoc.smoothbrainz.ui.AppState
 import com.krassoc.smoothbrainz.ui.component.Background
 import com.krassoc.smoothbrainz.ui.component.GradientBackground
 import com.krassoc.smoothbrainz.ui.component.AppNavigationDefaultsNavigationSuiteScaffold

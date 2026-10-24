@@ -9,21 +9,19 @@ import android.net.NetworkRequest
 import android.net.NetworkRequest.Builder
 import androidx.core.content.getSystemService
 import androidx.tracing.trace
-import com.krassoc.smoothbrainz.model.repo.INetworkMonitor
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.flowOn
-import javax.inject.Inject
-import com.krassoc.smoothbrainz.util.network.Dispatchers.IO
 
-internal class ConnectivityManagerNetworkMonitorImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
-    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
-    ) : INetworkMonitor {
+import com.krassoc.smoothbrainz.model.repo.INetworkMonitor
+
+internal class ConnectivityManagerNetworkMonitor(
+    private val context: Context,
+    private val ioDispatcher: CoroutineDispatcher,
+) : INetworkMonitor {
     override val isOnline: Flow<Boolean> = callbackFlow {
         trace("NetworkMonitor.callbackFlow") {
             val connectivityManager = context.getSystemService<ConnectivityManager>()

@@ -1,7 +1,6 @@
 package com.krassoc.smoothbrainz.data.repository
 
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
 
 import com.krassoc.smoothbrainz.data.services.local.SharedPreferencesService
 import com.krassoc.smoothbrainz.model.data.UserData
@@ -9,7 +8,7 @@ import com.krassoc.smoothbrainz.model.data.ThemeBrand
 import com.krassoc.smoothbrainz.model.data.DarkThemeConfig
 import com.krassoc.smoothbrainz.model.repo.IUserDataRepository
 
-internal class OfflineFirstUserDataRepositoryImpl @Inject constructor(
+class OfflineFirstUserDataRepositoryImpl(
     private val preferencesDataSource: SharedPreferencesService,
 ) : IUserDataRepository {
 

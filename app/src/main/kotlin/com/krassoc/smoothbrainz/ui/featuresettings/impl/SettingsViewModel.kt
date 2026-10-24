@@ -2,13 +2,11 @@ package com.krassoc.smoothbrainz.ui.featuresettings.impl
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
 
 import com.krassoc.smoothbrainz.model.repo.IUserDataRepository
@@ -17,8 +15,7 @@ import com.krassoc.smoothbrainz.model.data.ThemeBrand
 import com.krassoc.smoothbrainz.ui.featuresettings.impl.SettingsUiState.Loading
 import com.krassoc.smoothbrainz.ui.featuresettings.impl.SettingsUiState.Success
 
-@HiltViewModel
-class SettingsViewModel @Inject constructor(
+class SettingsViewModel (
     private val userDataRepository: IUserDataRepository,
 ) : ViewModel() {
     val settingsUiState: StateFlow<SettingsUiState> =

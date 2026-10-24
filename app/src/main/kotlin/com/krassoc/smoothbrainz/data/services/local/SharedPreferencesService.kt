@@ -1,11 +1,9 @@
 package com.krassoc.smoothbrainz.data.services.local
 
 import android.content.Context
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import javax.inject.Inject
 import javax.inject.Singleton
 
 import com.krassoc.smoothbrainz.model.data.DarkThemeConfig
@@ -13,8 +11,8 @@ import com.krassoc.smoothbrainz.model.data.ThemeBrand
 import com.krassoc.smoothbrainz.model.data.UserData
 
 @Singleton
-class SharedPreferencesService @Inject constructor(
-    @ApplicationContext private val context: Context
+class SharedPreferencesService (
+    private val context: Context
 ) {
     private val prefs = context.getSharedPreferences("_settings", Context.MODE_PRIVATE)
     private val _settingsFlow = MutableStateFlow(loadSettings())

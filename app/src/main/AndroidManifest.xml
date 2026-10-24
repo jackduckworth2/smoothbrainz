@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.smoothbrainz.Splash"
         tools:replace="android:theme"
-        android:name=".smoothbrainz"
+        android:name=".Smoothbrainz"
         tools:targetApi="31">
         <activity
             android:name=".ui.MainActivity"

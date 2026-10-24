@@ -2,12 +2,10 @@ package com.krassoc.smoothbrainz.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import javax.inject.Inject
 
 import com.krassoc.smoothbrainz.ui.MainActivityUiState.Loading
 import com.krassoc.smoothbrainz.ui.MainActivityUiState.Success
@@ -15,8 +13,8 @@ import com.krassoc.smoothbrainz.model.repo.IUserDataRepository
 import com.krassoc.smoothbrainz.model.data.UserData
 import com.krassoc.smoothbrainz.model.data.ThemeBrand
 import com.krassoc.smoothbrainz.model.data.DarkThemeConfig
-@HiltViewModel
-class MainActivityViewModel @Inject constructor(
+
+class MainActivityViewModel (
     userDataRepository: IUserDataRepository,
 ) : ViewModel() {
     val uiState: StateFlow<MainActivityUiState> = userDataRepository.userData.map {

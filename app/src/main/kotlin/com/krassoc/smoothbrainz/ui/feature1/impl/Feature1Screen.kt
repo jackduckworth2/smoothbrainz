@@ -69,11 +69,11 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus.Denied
 import com.google.accompanist.permissions.rememberPermissionState
+import org.koin.compose.viewmodel.koinViewModel
 
 import com.krassoc.smoothbrainz.model.data.UserNewsResource
 import com.krassoc.smoothbrainz.R
@@ -93,7 +93,7 @@ import com.krassoc.smoothbrainz.ui.theme.LocalTintTheme
 fun Feature1Screen(
     onTopicClick: (String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: Feature1ViewModel = hiltViewModel(),
+    viewModel: Feature1ViewModel = koinViewModel(),
 ) {
     val onboardingUiState by viewModel.onboardingUiState.collectAsStateWithLifecycle()
     //val feedState by viewModel.feedState.collectAsStateWithLifecycle()
