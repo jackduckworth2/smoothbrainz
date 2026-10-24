@@ -115,8 +115,6 @@ fun MainNavigation(
 
 @Composable
 @OptIn(
-    ExperimentalMaterial3Api::class,
-    ExperimentalComposeUiApi::class,
     ExperimentalMaterial3AdaptiveApi::class,
     )
 internal fun App(

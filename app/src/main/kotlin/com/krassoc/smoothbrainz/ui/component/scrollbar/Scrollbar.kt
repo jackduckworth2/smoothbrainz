@@ -44,6 +44,7 @@ import kotlinx.coroutines.withTimeout
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * The delay between scrolls when a user long presses on the scrollbar track to initiate a scroll
@@ -221,7 +222,7 @@ fun Scrollbar(
                     onPress = { offset ->
                         try {
                             // Wait for a long press before scrolling
-                            withTimeout(viewConfiguration.longPressTimeoutMillis) {
+                            withTimeout(viewConfiguration.longPressTimeoutMillis.milliseconds) {
                                 tryAwaitRelease()
                             }
                         } catch (e: TimeoutCancellationException) {
@@ -381,7 +382,7 @@ fun Scrollbar(
                 }
                 onThumbMoved(currentThumbMovedPercent)
                 interactionThumbTravelPercent = currentThumbMovedPercent
-                delay(SCROLLBAR_PRESS_DELAY_MS)
+                delay(SCROLLBAR_PRESS_DELAY_MS.milliseconds)
             }
         }
     }

@@ -19,8 +19,6 @@ import org.junit.After
 import org.koin.core.context.stopKoin
 import org.robolectric.RobolectricTestRunner
 
-import com.krassoc.smoothbrainz.ui.theme.MyApplicationTheme
-
 
 /**
  * Tests [MyApplicationTheme] using different combinations of the theme mode parameters:

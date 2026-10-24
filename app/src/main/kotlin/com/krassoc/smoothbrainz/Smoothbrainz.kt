@@ -8,7 +8,6 @@ import org.koin.core.context.startKoin
 
 import com.krassoc.smoothbrainz.di.appModule
 
-@OptIn(KoinExperimentalAPI::class)
 class Smoothbrainz : Application()
 {
     override fun onCreate() {

@@ -131,7 +131,7 @@ internal fun Feature1Screen(
     // This code should be called when the UI is ready for use and relates to Time To Full Display.
     ReportDrawnWhen { !isSyncing && !isOnboardingLoading && !isFeedLoading }
 
-    val itemsAvailable = 0;//feedItemsSize(feedState, onboardingUiState)
+    val itemsAvailable = 0//feedItemsSize(feedState, onboardingUiState)
 
     val state = rememberLazyStaggeredGridState()
     val scrollbarState = state.scrollbarState(

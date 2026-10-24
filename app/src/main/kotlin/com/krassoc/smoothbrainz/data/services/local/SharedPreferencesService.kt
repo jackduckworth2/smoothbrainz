@@ -9,6 +9,7 @@ import javax.inject.Singleton
 import com.krassoc.smoothbrainz.model.data.DarkThemeConfig
 import com.krassoc.smoothbrainz.model.data.ThemeBrand
 import com.krassoc.smoothbrainz.model.data.UserData
+import androidx.core.content.edit
 
 @Singleton
 class SharedPreferencesService (
@@ -49,7 +50,7 @@ class SharedPreferencesService (
             _settingsFlow.value.useDynamicColor,
             _settingsFlow.value.shouldHideOnboarding,
         )
-        prefs.edit().putString ("themeBrand", themeBrand.name).apply()
+        prefs.edit { putString("themeBrand", themeBrand.name) }
     }
 
     fun setDynamicColorPreference(useDynamicColor: Boolean) {
@@ -59,7 +60,7 @@ class SharedPreferencesService (
             useDynamicColor,
             _settingsFlow.value.shouldHideOnboarding,
         )
-        prefs.edit().putBoolean("useDynamicColor", useDynamicColor).apply()
+        prefs.edit { putBoolean("useDynamicColor", useDynamicColor)}
     }
 
     fun setDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
@@ -69,7 +70,7 @@ class SharedPreferencesService (
             _settingsFlow.value.useDynamicColor,
             _settingsFlow.value.shouldHideOnboarding,
         )
-        prefs.edit().putString ("darkThemeConfig", darkThemeConfig.name).apply()
+        prefs.edit { putString("darkThemeConfig", darkThemeConfig.name)}
     }
 
     fun setShouldHideOnboarding(shouldHideOnboarding: Boolean) {
@@ -79,6 +80,6 @@ class SharedPreferencesService (
             _settingsFlow.value.useDynamicColor,
             shouldHideOnboarding,
         )
-        prefs.edit().putBoolean("shouldHideOnboarding", shouldHideOnboarding).apply()
+        prefs.edit { putBoolean("shouldHideOnboarding", shouldHideOnboarding)}
     }
 }

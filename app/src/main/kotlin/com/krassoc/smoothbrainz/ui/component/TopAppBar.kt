@@ -60,7 +60,6 @@ fun TopAppBar(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview("Top App Bar")
 @Composable
 private fun TopAppBarPreview() {

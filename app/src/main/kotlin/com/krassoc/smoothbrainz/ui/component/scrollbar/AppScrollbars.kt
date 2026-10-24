@@ -44,6 +44,7 @@ import kotlinx.coroutines.delay
 import com.krassoc.smoothbrainz.ui.component.scrollbar.ThumbState.Active
 import com.krassoc.smoothbrainz.ui.component.scrollbar.ThumbState.Dormant
 import com.krassoc.smoothbrainz.ui.component.scrollbar.ThumbState.Inactive
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * The time period for showing the scrollbar thumb after interacting with it, before it fades away
@@ -226,7 +227,7 @@ private fun scrollbarThumbColor(
             true -> state = Active
             false -> if (state == Active) {
                 state = Inactive
-                delay(SCROLLBAR_INACTIVE_TO_DORMANT_TIME_IN_MS)
+                delay(SCROLLBAR_INACTIVE_TO_DORMANT_TIME_IN_MS.milliseconds)
                 state = Dormant
             }
         }
