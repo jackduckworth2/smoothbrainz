@@ -1,23 +1,24 @@
 package com.krassoc.smoothbrainz.data.services.local
 
 import android.content.Context
+import androidx.core.content.edit
+import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import javax.inject.Singleton
 
 import com.krassoc.smoothbrainz.model.data.DarkThemeConfig
 import com.krassoc.smoothbrainz.model.data.ThemeBrand
 import com.krassoc.smoothbrainz.model.data.UserData
-import androidx.core.content.edit
+import com.krassoc.smoothbrainz.model.services.ISharedPreferencesService
 
 @Singleton
 class SharedPreferencesService (
     private val context: Context
-) {
+) : ISharedPreferencesService {
     private val prefs = context.getSharedPreferences("_settings", Context.MODE_PRIVATE)
     private val _settingsFlow = MutableStateFlow(loadSettings())
-    val userData: Flow<UserData> = _settingsFlow.asStateFlow()
+    override val userData: Flow<UserData> = _settingsFlow.asStateFlow()
     private fun loadSettings(): UserData {
         val themeBrand          = prefs.getString("themeBrand", null)?.let {
             try {
@@ -43,7 +44,7 @@ class SharedPreferencesService (
         )
     }
 
-    fun setThemeBrand(themeBrand: ThemeBrand) {
+    override fun setThemeBrand(themeBrand: ThemeBrand) {
         _settingsFlow.value = UserData(
             themeBrand,
             _settingsFlow.value.darkThemeConfig,
@@ -53,7 +54,7 @@ class SharedPreferencesService (
         prefs.edit { putString("themeBrand", themeBrand.name) }
     }
 
-    fun setDynamicColorPreference(useDynamicColor: Boolean) {
+    override fun setDynamicColorPreference(useDynamicColor: Boolean) {
         _settingsFlow.value = UserData(
             _settingsFlow.value.themeBrand,
             _settingsFlow.value.darkThemeConfig,
@@ -63,7 +64,7 @@ class SharedPreferencesService (
         prefs.edit { putBoolean("useDynamicColor", useDynamicColor)}
     }
 
-    fun setDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
+    override fun setDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
         _settingsFlow.value = UserData(
             _settingsFlow.value.themeBrand,
             darkThemeConfig,
@@ -73,7 +74,7 @@ class SharedPreferencesService (
         prefs.edit { putString("darkThemeConfig", darkThemeConfig.name)}
     }
 
-    fun setShouldHideOnboarding(shouldHideOnboarding: Boolean) {
+    override fun setShouldHideOnboarding(shouldHideOnboarding: Boolean) {
         _settingsFlow.value = UserData(
             _settingsFlow.value.themeBrand,
             _settingsFlow.value.darkThemeConfig,

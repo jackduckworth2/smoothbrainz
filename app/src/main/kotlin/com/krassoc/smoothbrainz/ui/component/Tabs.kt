@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Tab
+import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -53,7 +53,7 @@ fun AppTab(
 }
 
 /**
- * Now in Android tab row. Wraps Material 3 [TabRow].
+ * Now in Android tab row. Wraps Material 3 [SecondaryTabRow].
  *
  * @param selectedTabIndex The index of the currently selected tab.
  * @param modifier Modifier to be applied to the tab row.
@@ -66,14 +66,16 @@ fun AppTabRow(
     modifier: Modifier = Modifier,
     tabs: @Composable () -> Unit,
 ) {
-    TabRow(
+    SecondaryTabRow(
         selectedTabIndex = selectedTabIndex,
         modifier = modifier,
         containerColor = Color.Transparent,
         contentColor = MaterialTheme.colorScheme.onSurface,
-        indicator = { tabPositions ->
+        indicator = {
             TabRowDefaults.SecondaryIndicator(
-                modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex]),
+                modifier = Modifier.tabIndicatorOffset(
+                    selectedTabIndex
+                ),
                 height = 2.dp,
                 color = MaterialTheme.colorScheme.onSurface,
             )

@@ -2,14 +2,14 @@ package com.krassoc.smoothbrainz.data.repository
 
 import kotlinx.coroutines.flow.Flow
 
-import com.krassoc.smoothbrainz.data.services.local.SharedPreferencesService
 import com.krassoc.smoothbrainz.model.data.UserData
 import com.krassoc.smoothbrainz.model.data.ThemeBrand
 import com.krassoc.smoothbrainz.model.data.DarkThemeConfig
 import com.krassoc.smoothbrainz.model.repo.IUserDataRepository
+import com.krassoc.smoothbrainz.model.services.ISharedPreferencesService
 
-class OfflineFirstUserDataRepositoryImpl(
-    private val preferencesDataSource: SharedPreferencesService,
+class UserDataRepositoryImpl(
+    private val preferencesDataSource: ISharedPreferencesService,
 ) : IUserDataRepository {
 
     override val userData: Flow<UserData> =

@@ -1,32 +1,22 @@
 package com.krassoc.smoothbrainz.data.repository
 
-import com.krassoc.smoothbrainz.data.services.local.SharedPreferencesService
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
+//import com.krassoc.smoothbrainz.data.services.local.SharedPreferencesService
+import com.krassoc.smoothbrainz.model.services.ISharedPreferencesService
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.runTest
 import org.junit.Before
-import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
-
-import com.krassoc.smoothbrainz.model.data.DarkThemeConfig
-import com.krassoc.smoothbrainz.model.data.ThemeBrand
-import com.krassoc.smoothbrainz.model.data.UserData
 
 class OfflineFirstUserDataRepositoryTest {
 
     private val testScope = TestScope(UnconfinedTestDispatcher())
 
-    private lateinit var subject: OfflineFirstUserDataRepositoryImpl
+    private lateinit var subject: UserDataRepositoryImpl
 
-    private lateinit var preferencesDataSource: SharedPreferencesService
+    private lateinit var preferencesDataSource: ISharedPreferencesService
 
     @Before
     fun setup() {
-        //preferencesDataSource = SharedPreferencesService(InMemoryDataStore(UserPreferences.getDefaultInstance()))
+        //preferencesDataSource = ISharedPreferencesService(InMemoryDataStore(UserPreferences.getDefaultInstance()))
         //subject = OfflineFirstUserDataRepositoryImpl( preferencesDataSource = preferencesDataSource,)
     }
 /*

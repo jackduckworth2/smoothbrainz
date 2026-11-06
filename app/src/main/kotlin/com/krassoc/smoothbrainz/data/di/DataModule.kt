@@ -5,10 +5,11 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 import com.krassoc.smoothbrainz.model.repo.IUserDataRepository
-import com.krassoc.smoothbrainz.data.repository.OfflineFirstUserDataRepositoryImpl
+import com.krassoc.smoothbrainz.data.repository.UserDataRepositoryImpl
 import com.krassoc.smoothbrainz.data.services.local.SharedPreferencesService
+import com.krassoc.smoothbrainz.model.services.ISharedPreferencesService
 
 val dataKoinModule = module {
-    singleOf(::OfflineFirstUserDataRepositoryImpl) bind IUserDataRepository::class
-    singleOf(::SharedPreferencesService)
+    singleOf(::UserDataRepositoryImpl) bind IUserDataRepository::class
+    singleOf(::SharedPreferencesService) bind ISharedPreferencesService::class
 }
