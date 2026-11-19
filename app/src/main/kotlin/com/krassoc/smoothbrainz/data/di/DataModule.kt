@@ -7,9 +7,12 @@ import org.koin.dsl.module
 import com.krassoc.smoothbrainz.model.repo.IUserDataRepository
 import com.krassoc.smoothbrainz.data.repository.UserDataRepositoryImpl
 import com.krassoc.smoothbrainz.data.services.local.SharedPreferencesService
+import com.krassoc.smoothbrainz.data.services.remote.ListenBrainzAPI
+import com.krassoc.smoothbrainz.model.services.IListenBrainzAPI
 import com.krassoc.smoothbrainz.model.services.ISharedPreferencesService
 
 val dataKoinModule = module {
     singleOf(::UserDataRepositoryImpl) bind IUserDataRepository::class
     singleOf(::SharedPreferencesService) bind ISharedPreferencesService::class
+    singleOf(::ListenBrainzAPI) bind IListenBrainzAPI::class
 }

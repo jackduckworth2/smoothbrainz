@@ -106,9 +106,7 @@ class MainActivity : ComponentActivity() {
                     androidTheme = themeSettings.androidTheme,
                     disableDynamicTheming = themeSettings.disableDynamicTheming,
                 ) {
-                    KoinAndroidContext {
-                        MainNavigation(appState)
-                    }
+                    MainNavigation(appState)
                 }
             }
         }

@@ -1,5 +1,6 @@
 package com.krassoc.smoothbrainz.model.repo
 
+import io.ktor.client.HttpClient
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -7,4 +8,5 @@ import kotlinx.coroutines.flow.Flow
  */
 interface INetworkMonitor {
     val isOnline: Flow<Boolean>
+    val httpClient: HttpClient
 }

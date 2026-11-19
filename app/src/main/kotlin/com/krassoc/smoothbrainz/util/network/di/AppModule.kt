@@ -10,7 +10,7 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 import com.krassoc.smoothbrainz.model.repo.INetworkMonitor
-import com.krassoc.smoothbrainz.util.network.ConnectivityManagerNetworkMonitor
+import com.krassoc.smoothbrainz.util.network.NetworkMonitorImpl
 
 val dispatchersKoinModule = module {
     single<CoroutineDispatcher> { Dispatchers.IO }
@@ -21,7 +21,7 @@ val coroutineScopesKoinModule = module {
 }
 
 val networkMonitorModule = module {
-    singleOf(::ConnectivityManagerNetworkMonitor) bind INetworkMonitor::class
+    singleOf(::NetworkMonitorImpl) bind INetworkMonitor::class
 }
 
 val networkKoinModule = module {

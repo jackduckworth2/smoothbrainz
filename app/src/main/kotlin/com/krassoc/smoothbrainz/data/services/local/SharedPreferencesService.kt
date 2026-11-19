@@ -17,7 +17,7 @@ class SharedPreferencesService (
     private val context: Context
 ) : ISharedPreferencesService {
     private val prefs = context.getSharedPreferences("_settings", Context.MODE_PRIVATE)
-    private val _settingsFlow = MutableStateFlow(loadSettings())
+    private val _settingsFlow = MutableStateFlow<UserData>(loadSettings())
     override val userData: Flow<UserData> = _settingsFlow.asStateFlow()
     private fun loadSettings(): UserData {
         val themeBrand          = prefs.getString("themeBrand", null)?.let {

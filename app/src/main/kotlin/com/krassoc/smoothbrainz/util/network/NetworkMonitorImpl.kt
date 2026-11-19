@@ -15,10 +15,20 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.serialization.json.Json
+
+import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.observer.ResponseObserver
+import io.ktor.serialization.kotlinx.json.json
 
 import com.krassoc.smoothbrainz.model.repo.INetworkMonitor
-
-internal class ConnectivityManagerNetworkMonitor(
+internal class NetworkMonitorImpl(
     private val context: Context,
     private val ioDispatcher: CoroutineDispatcher,
 ) : INetworkMonitor {
@@ -73,5 +83,33 @@ internal class ConnectivityManagerNetworkMonitor(
     private fun ConnectivityManager.isCurrentlyConnected(): Boolean {
         val networkCapabilities = getNetworkCapabilities(activeNetwork) ?: return false
         return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+    }
+
+    override val httpClient = HttpClient(OkHttp) {
+        install(ContentNegotiation) {
+            //json(json = Json { ignoreUnknownKeys = true }, contentType = ContentType.Any)
+            json(json = Json { ignoreUnknownKeys = true })
+        }
+        install(HttpTimeout) {
+            requestTimeoutMillis = 30_000 // Timeouts
+            connectTimeoutMillis = 30_000
+        }
+        install(Logging) {
+            logger = object : Logger {
+                override fun log(message: String) {
+                    //Log.v("Logger Ktor =>", message)
+                }
+            }
+            level = LogLevel.ALL
+        }
+        install(ResponseObserver) {
+            onResponse { response ->
+                //Log.d("HTTP status:", "${response.status.value}")
+            }
+        }
+        //install(DefaultRequest) {
+        //  header(HttpHeaders.ContentType, ContentType.Application.Json)
+        //}
+        expectSuccess = true
     }
 }

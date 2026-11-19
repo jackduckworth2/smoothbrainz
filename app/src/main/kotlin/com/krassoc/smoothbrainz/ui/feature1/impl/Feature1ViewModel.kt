@@ -14,10 +14,12 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 import com.krassoc.smoothbrainz.model.repo.IUserDataRepository
+import com.krassoc.smoothbrainz.model.services.IListenBrainzAPI
 
 class Feature1ViewModel (
     private val savedStateHandle: SavedStateHandle,
     private val userDataRepository: IUserDataRepository,
+    private val lb : IListenBrainzAPI
 ) : ViewModel() {
 
     private val shouldShowOnboarding: Flow<Boolean> =
@@ -57,6 +59,12 @@ class Feature1ViewModel (
     fun dismissOnboarding() {
         viewModelScope.launch {
             userDataRepository.setShouldHideOnboarding(true)
+        }
+        viewModelScope.launch {
+            val b = lb.verifyToken("412b6ab7-c3c0-410b-a226-64a1e2e84799")
+            b.onSuccess {
+                ;
+            }
         }
     }
 }
