@@ -6,10 +6,10 @@ import com.krassoc.smoothbrainz.model.data.UserData
 import com.krassoc.smoothbrainz.model.data.ThemeBrand
 import com.krassoc.smoothbrainz.model.data.DarkThemeConfig
 import com.krassoc.smoothbrainz.model.repo.IUserDataRepository
-import com.krassoc.smoothbrainz.model.services.ISharedPreferencesService
+import com.krassoc.smoothbrainz.model.services.IUserPreferencesService
 
 class UserDataRepositoryImpl(
-    private val preferencesDataSource: ISharedPreferencesService,
+    private val preferencesDataSource: IUserPreferencesService,
 ) : IUserDataRepository {
 
     override val userData: Flow<UserData> =

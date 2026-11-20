@@ -10,12 +10,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import com.krassoc.smoothbrainz.model.data.DarkThemeConfig
 import com.krassoc.smoothbrainz.model.data.ThemeBrand
 import com.krassoc.smoothbrainz.model.data.UserData
-import com.krassoc.smoothbrainz.model.services.ISharedPreferencesService
+import com.krassoc.smoothbrainz.model.services.IUserPreferencesService
 
 @Singleton
 class SharedPreferencesService (
     private val context: Context
-) : ISharedPreferencesService {
+) : IUserPreferencesService {
     private val prefs = context.getSharedPreferences("_settings", Context.MODE_PRIVATE)
     private val _settingsFlow = MutableStateFlow<UserData>(loadSettings())
     override val userData: Flow<UserData> = _settingsFlow.asStateFlow()
@@ -36,11 +36,13 @@ class SharedPreferencesService (
         } ?: DarkThemeConfig.FOLLOW_SYSTEM
         val useDynamicColor      = prefs.getBoolean("useDynamicColor",      true)
         val shouldHideOnboarding = prefs.getBoolean("shouldHideOnboarding", false)
+        val listenBrainzToken    = prefs.getString("listenBrainzToken", null)
+        val listenBrainzUsername = prefs.getString("listenBrainzUsername", null)
         return UserData(
             themeBrand,
             darkThemeConfig,
             useDynamicColor,
-            false
+            shouldHideOnboarding,
         )
     }
 

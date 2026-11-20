@@ -20,7 +20,6 @@ junit = "4.13.2"
 koin = "4.2.2"
 kotlin = "2.4.21"
 ktor = "3.6.1"
-kotlinxDatetime = "0.8.0"
 lifecycleViewmodelNav3 = "2.10.0"
 nav3Core = "1.1.2"
 robolectric = "4.17"
@@ -70,7 +69,6 @@ koin-androidx-startup = {group = "io.insert-koin", name = "koin-androidx-startup
 koin-androidx-workmanager = {group = "io.insert-koin", name = "koin-androidx-workmanager", version.ref = "koin"}
 koin-compose-viewmodel = {group = "io.insert-koin", name = "koin-compose-viewmodel", version.ref = "koin"}
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
-kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlin-metadata = { module = "org.jetbrains.kotlin:kotlin-metadata-jvm", version.ref = "kotlin" }
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
 ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }

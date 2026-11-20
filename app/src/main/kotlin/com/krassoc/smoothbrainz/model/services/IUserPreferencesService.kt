@@ -6,14 +6,10 @@ import com.krassoc.smoothbrainz.model.data.DarkThemeConfig
 import com.krassoc.smoothbrainz.model.data.ThemeBrand
 import com.krassoc.smoothbrainz.model.data.UserData
 
-interface ISharedPreferencesService {
+interface IUserPreferencesService {
     val userData: Flow<UserData>
-
     fun setThemeBrand(themeBrand: ThemeBrand)
-
     fun setDynamicColorPreference(useDynamicColor: Boolean)
-
     fun setDarkThemeConfig(darkThemeConfig: DarkThemeConfig)
-
     fun setShouldHideOnboarding(shouldHideOnboarding: Boolean)
 }

@@ -22,8 +22,7 @@ class Feature1ViewModel (
     private val lb : IListenBrainzAPI
 ) : ViewModel() {
 
-    private val shouldShowOnboarding: Flow<Boolean> =
-        userDataRepository.userData.map { !it.shouldHideOnboarding }
+    private val shouldShowOnboarding: Flow<Boolean> = userDataRepository.userData.map { !it.shouldHideOnboarding }
 
 /*
     val isSyncing = syncManager.isSyncing

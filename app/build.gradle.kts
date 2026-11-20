@@ -120,10 +120,7 @@ dependencies {
     androidTestImplementation(libs.kotlin.test)
     androidTestImplementation(libs.androidx.test.espresso.core)
 
-    api(libs.kotlinx.datetime)
-
     implementation(libs.truth)
-    implementation(libs.kotlinx.datetime)
     implementation(libs.robolectric)
 
     // Navigation

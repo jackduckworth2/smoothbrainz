@@ -1,7 +1,7 @@
 package com.krassoc.smoothbrainz.data.repository
 
 //import com.krassoc.smoothbrainz.data.services.local.SharedPreferencesService
-import com.krassoc.smoothbrainz.model.services.ISharedPreferencesService
+import com.krassoc.smoothbrainz.model.services.IUserPreferencesService
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import org.junit.Before
@@ -12,7 +12,7 @@ class OfflineFirstUserDataRepositoryTest {
 
     private lateinit var subject: UserDataRepositoryImpl
 
-    private lateinit var preferencesDataSource: ISharedPreferencesService
+    private lateinit var preferencesDataSource: IUserPreferencesService
 
     @Before
     fun setup() {
