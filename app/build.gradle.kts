@@ -7,11 +7,14 @@ plugins {
 
 android {
     namespace = "com.krassoc.smoothbrainz"
-    compileSdk = 37
-
+    compileSdk {
+        version = release(37) {
+            minorApiLevel = 2
+        }
+    }
     defaultConfig {
         applicationId = "com.krassoc.smoothbrainz"
-        minSdk = 23
+        minSdk = 24
         targetSdk = 37
         versionCode = 1
         versionName = "1.0"
